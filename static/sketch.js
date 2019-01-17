@@ -1,5 +1,6 @@
 
 const moveSpeed = 2;
+let mapData;
 
 class Pacman {
   constructor() {
@@ -16,6 +17,21 @@ class Pacman {
   }
 }
 
+function renderBoard() {
+  fill(250,250,1);
+  for (var i = 0; i < mapData.length; i++) {
+    for (var j = 0; j < mapData[i].length; j++) {
+      if (mapData[i][j]) {
+        rect(10*i,10*j,10,10);
+      }
+    }
+  }
+}
+
+$.get("/getMap", function(data) {
+  mapData = JSON.parse(data);
+});
+
 let pacman;
 function setup() {
   createCanvas(500,500);
@@ -26,6 +42,8 @@ function draw() {
 	keyPressed();
 	pacman.update();
   pacman.display();
+  pacman.update();
+  renderBoard();
 }
 
 function keyPressed() {
