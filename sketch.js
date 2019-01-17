@@ -1,7 +1,10 @@
+
+const moveSpeed = 2;
+
 class Pacman {
   constructor() {
     this.pos = createVector(50,50);
-    this.vel = createVector(0,0);
+    this.vel = createVector(2,0);
     this.r = 50;
   }
   update() {
@@ -11,20 +14,6 @@ class Pacman {
     fill(255,255,255);
     arc(this.pos.x, this.pos.y, this.r, this.r, PI/6, 11*PI/6);
   }
-
-	moveRight(){
-    this.vel = createVector(2,0);
-	}
-	moveLeft(){
-    this.vel = createVector(-2,0);
-	}
-	moveUp() {
-    this.vel = createVector(0,-2);
-	}
-	moveDown() {
-    this.vel = createVector(0,2);
-	}
-
 }
 
 let pacman;
@@ -41,13 +30,13 @@ function draw() {
 
 function keyPressed() {
 	if (keyCode == 39)			// <Right Arrow>
-		pacman.moveRight();
-	if (keyCode == 37)	// <Left Arrow>
-		pacman.moveLeft();
-	if (keyCode == 38)	// <Up Arrow>
-		pacman.moveUp();
-	if (keyCode == 40)	// <Down Arrow>
-		pacman.moveDown();
+    pacman.vel = createVector(moveSpeed,0);
+	else if (keyCode == 37)	// <Left Arrow>
+		pacman.vel = createVector(-moveSpeed,0);
+	else if (keyCode == 38)	// <Up Arrow>
+		pacman.vel = createVector(0,-moveSpeed);
+	else if (keyCode == 40)	// <Down Arrow>
+		pacman.vel = createVector(0,moveSpeed);
 }
 
 
