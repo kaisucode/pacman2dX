@@ -1,3 +1,5 @@
+let mapData;
+
 class Pacman {
   constructor() {
     this.pos = createVector(50,50);
@@ -13,9 +15,19 @@ class Pacman {
   }
 }
 
+function renderBoard() {
+  fill(250,250,1);
+  for (var i = 0; i < mapData.length; i++) {
+    for (var j = 0; j < mapData[i].length; j++) {
+      if (mapData[i][j]) {
+        rect(10*i,10*j,10,10);
+      }
+    }
+  }
+}
+
 $.get("/getMap", function(data) {
-  let mapData = JSON.parse(data);
-  console.log(data);
+  mapData = JSON.parse(data);
 });
 
 let pacman;
@@ -27,4 +39,5 @@ function draw() {
   background(0, 0, 0);
   pacman.display();
   pacman.update();
+  renderBoard();
 }
