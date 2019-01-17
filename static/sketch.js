@@ -5,13 +5,18 @@ class Pacman {
     this.r = 50;
   }
   update() {
-    this.pos.add(this.pos);
+    this.pos.add(this.vel);
   }
   display() {
     fill(255,255,255);
     arc(this.pos.x, this.pos.y, this.r, this.r, PI/6, 11*PI/6);
   }
 }
+
+$.get("/getMap", function(data) {
+  let mapData = JSON.parse(data);
+  console.log(data);
+});
 
 let pacman;
 function setup() {
@@ -21,4 +26,5 @@ function setup() {
 function draw() {
   background(0, 0, 0);
   pacman.display();
+  pacman.update();
 }

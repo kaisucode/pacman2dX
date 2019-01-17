@@ -105,13 +105,20 @@ for i in range(N):
                 pixel_grid[3*i][3*j+jj] = grid[i][j].walls[1] # up
             if pixel_grid[3*i+2][3*j+jj] == 0:
                 pixel_grid[3*i+2][3*j+jj] = grid[i][j].walls[3] # down
-plt.imshow(pixel_grid)
+
+import numpy as np
+pixel_grid = np.array(pixel_grid)
+pixel_grid[1:-1,-1] = 0
+flipped = np.flip(pixel_grid, axis=1)
+full_grid = np.hstack([pixel_grid, flipped])
+plt.imshow(full_grid)
 plt.show()
+full_grid = full_grid.tolist()
 
 # output the pixel_grid to a file for use in maze solving programs
 import json
 with open("maze.json", 'w') as f:
-    json.dump(pixel_grid, f)
+    json.dump(full_grid, f)
 
 wallMatrix = [[grid[i][j].walls for j in range(N)] for i in range(N)]
 with open("grid.json", 'w') as f:
