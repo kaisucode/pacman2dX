@@ -1,25 +1,42 @@
 
-const moveSpeed = 2;
 const pixelWidth = 20;
+const moveSpeed = pixelWidth*1;
 let mapData;
-const mouthRate = 20;
+const mouthRate = 10;
+const moveTicks = 10;
+const mouthAngle = Math.PI/3;
 
 class Pacman {
   constructor() {
     this.pos = createVector(50,50);
     this.vel = createVector(2,0);
-    this.state = 0;
+    this.tickCt = 0;
+    this.tickMod = 1000;
   }
   update() {
-		this.state = (this.state + 1) % (2*mouthRate);
-    this.pos.add(this.vel);
+    this.tickCt = (this.tickCt + 1) % this.tickMod;
+    if (this.tickCt % moveTicks == 0)
+      this.pos.add(this.vel);
   }
   display() {
     fill(255,255,255);
-    if(this.state < mouthRate)
-      arc(this.pos.x, this.pos.y, pixelWidth, pixelWidth, PI/6, 11*PI/6);
-		else
-			ellipse(this.pos.x, this.pos.y, pixelWidth, pixelWidth);
+    if((this.tickCt % (2*mouthRate)) < mouthRate) {
+      push();
+      translate(this.pos.x, this.pos.y);
+      if (this.vel.x > 0)
+        rotate(0);
+      else if (this.vel.x < 0)
+        rotate(PI);
+      else if (this.vel.y < 0)
+        rotate(3*PI/2);
+      else if (this.vel.y > 0)
+        rotate(PI/2);
+      arc(0, 0, pixelWidth, pixelWidth, mouthAngle, 2*PI-mouthAngle);
+      pop();
+    }
+		else {
+      ellipse(this.pos.x, this.pos.y, pixelWidth, pixelWidth);
+    }
   }
 }
 
@@ -50,7 +67,8 @@ function draw() {
   pacman.display();
   pacman.update();
 	if(mapData)
-		renderBoard();
+		// renderBoard();
+  frameRate(30);
 }
 
 function keyPressed() {
