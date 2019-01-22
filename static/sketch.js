@@ -2,6 +2,7 @@
 const moveSpeed = 2;
 const pixelWidth = 20;
 let mapData;
+const mouthRate = 20;
 
 class Pacman {
   constructor() {
@@ -10,12 +11,12 @@ class Pacman {
     this.state = 0;
   }
   update() {
-		this.state = (this.state + 1) % 2;
+		this.state = (this.state + 1) % (2*mouthRate);
     this.pos.add(this.vel);
   }
   display() {
     fill(255,255,255);
-    if(this.state == 0)
+    if(this.state < mouthRate)
       arc(this.pos.x, this.pos.y, pixelWidth, pixelWidth, PI/6, 11*PI/6);
 		else
 			ellipse(this.pos.x, this.pos.y, pixelWidth, pixelWidth);
@@ -62,5 +63,3 @@ function keyPressed() {
 	else if (keyCode == 40)	// <Down Arrow>
 		pacman.vel = createVector(0,moveSpeed);
 }
-
-
