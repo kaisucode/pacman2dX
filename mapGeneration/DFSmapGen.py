@@ -111,11 +111,12 @@ pixel_grid = np.array(pixel_grid)
 pixel_grid[1:-1,-1] = 0
 flipped = np.flip(pixel_grid, axis=1)
 full_grid = np.hstack([pixel_grid, flipped])
+full_grid = full_grid.T
 plt.imshow(full_grid)
 plt.show()
 full_grid = full_grid.tolist()
 
-# output the pixel_grid to a file for use in maze solving programs
+#  output the pixel_grid to a file for use in maze solving programs
 import json
 with open("maze.json", 'w') as f:
     json.dump(full_grid, f)

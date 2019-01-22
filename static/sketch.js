@@ -1,19 +1,24 @@
 
 const moveSpeed = 2;
+const pixelWidth = 20;
 let mapData;
 
 class Pacman {
   constructor() {
     this.pos = createVector(50,50);
     this.vel = createVector(2,0);
-    this.r = 50;
+    this.state = 0;
   }
   update() {
+		this.state = (this.state + 1) % 2;
     this.pos.add(this.vel);
   }
   display() {
     fill(255,255,255);
-    arc(this.pos.x, this.pos.y, this.r, this.r, PI/6, 11*PI/6);
+    if(this.state == 0)
+      arc(this.pos.x, this.pos.y, pixelWidth, pixelWidth, PI/6, 11*PI/6);
+		else
+			ellipse(this.pos.x, this.pos.y, pixelWidth, pixelWidth);
   }
 }
 
@@ -22,7 +27,7 @@ function renderBoard() {
   for (var i = 0; i < mapData.length; i++) {
     for (var j = 0; j < mapData[i].length; j++) {
       if (mapData[i][j]) {
-        rect(10*i,10*j,10,10);
+        rect(pixelWidth*i,pixelWidth*j,pixelWidth, pixelWidth);
       }
     }
   }
@@ -34,7 +39,7 @@ $.get("/getMap", function(data) {
 
 let pacman;
 function setup() {
-  createCanvas(500,500);
+  createCanvas(0.99*windowWidth,0.95*windowHeight);
   pacman = new Pacman();
 }
 function draw() {
@@ -43,7 +48,8 @@ function draw() {
 	pacman.update();
   pacman.display();
   pacman.update();
-  renderBoard();
+	if(mapData)
+		renderBoard();
 }
 
 function keyPressed() {
