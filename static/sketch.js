@@ -67,7 +67,7 @@ function draw() {
   pacman.display();
   pacman.update();
 	if(mapData)
-		// renderBoard();
+		renderBoard();
   frameRate(30);
 }
 
@@ -81,3 +81,4 @@ function keyPressed() {
 	else if (keyCode == 40)	// <Down Arrow>
 		pacman.vel = createVector(0,moveSpeed);
 }
+
